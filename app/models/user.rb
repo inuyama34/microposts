@@ -30,4 +30,10 @@ before_save { self.email.downcase! }
   def feed_microposts
     Micropost.where(user_id: self.following_ids + [self.id])
   end
+
+
+  has_many :favorites
+  has_many :favorites, through: :favorites, source: :micropost
+  has_many :reverses_of_favorite, class_name: 'Favorite', foreign_key: 'micropost_id'
+  has_many :favorites, through: :reverses_of_favorite, source: :user
 end
