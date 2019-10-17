@@ -1,5 +1,5 @@
 class User < ApplicationRecord
-before_save { self.email.downcase! }
+  before_save { self.email.downcase! }
   validates :name, presence: true, length: { maximum: 50 }
   validates :email, presence: true, length: { maximum: 255 },
                     format: { with: /\A[\w+\-.]+@[a-z\d\-.]+\.[a-z]+\z/i },
@@ -30,10 +30,4 @@ before_save { self.email.downcase! }
   def feed_microposts
     Micropost.where(user_id: self.following_ids + [self.id])
   end
-
-
-  has_many :favorites
-  has_many :favorites, through: :favorites, source: :micropost
-  has_many :reverses_of_favorite, class_name: 'Favorite', foreign_key: 'micropost_id'
-  has_many :favorites, through: :reverses_of_favorite, source: :user
 end
