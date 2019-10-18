@@ -38,12 +38,12 @@ class User < ApplicationRecord
   
   #お気に入り追加
   def like(micropost)
-    favorites.find_or_create_by(micropost_id: micropost.id)
+    self.favorites.find_or_create_by(micropost_id: micropost.id)
   end
 
   #お気に入り削除
   def unlike(micropost)
-    favorite = favorites.find_by(micropost_id: micropost.id)
+    favorite = self.favorites.find_by(micropost_id: micropost.id)
     favorite.destroy if favorite
   end
 
