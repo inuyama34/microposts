@@ -30,4 +30,26 @@ class User < ApplicationRecord
   def feed_microposts
     Micropost.where(user_id: self.following_ids + [self.id])
   end
+  
+  
+  
+  #お気にコード追加部分
+  has_many :likes
+  has_many :likes, through: :likes, source: :micropost
+  
+  #お気に入り機能追加コード
+  def iine(micropost)
+    likes.find_or_create_by(micropost_id: micropost.id)
+  end
+  
+  def uniine(micropost)
+    like = likes.find_by(micropost_id: micropost.id)
+    like.destroy if like
+  end
+  
+  def iine?(micropost)
+    self.likes.include?(micropost)
+  end
 end
+
+ 
