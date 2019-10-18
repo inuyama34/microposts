@@ -11,6 +11,10 @@ class User < ApplicationRecord
   has_many :reverses_of_relationship, class_name: 'Relationship', foreign_key: 'follow_id'
   has_many :followers, through: :reverses_of_relationship, source: :user
   
+  #お気に入り機能追加用
+  has_many :favorites
+  has_many :favposts, through: :favorites, source: :micropost
+  
   
    def follow(other_user)
     unless self == other_user
@@ -32,24 +36,19 @@ class User < ApplicationRecord
   end
   
   
-  
-  #お気にコード追加部分
-  has_many :likes
-  has_many :likes, through: :likes, source: :micropost
-  
-  #お気に入り機能追加コード
-  def iine(micropost)
-    likes.find_or_create_by(micropost_id: micropost.id)
+  #お気に入り追加
+  def like(micropost)
+    favorites.find_or_create_by(micropost_id: micropost.id)
   end
-  
-  def uniine(micropost)
-    like = likes.find_by(micropost_id: micropost.id)
-    like.destroy if like
+
+  #お気に入り削除
+  def unlike(micropost)
+    favorite = favorites.find_by(micropost_id: micropost.id)
+    favorite.destroy if favorite
   end
-  
-  def iine?(micropost)
-    self.likes.include?(micropost)
+
+  #お気にり登録判定
+  def  favpost?(micropost)
+    self.favposts.include?(micropost)
   end
 end
-
- 
