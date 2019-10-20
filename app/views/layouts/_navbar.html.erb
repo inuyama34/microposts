@@ -9,6 +9,10 @@
       <ul class="navbar-nav">
         <% if logged_in? %>
           <li class="nav-item"><%= link_to 'Users', users_path, class: 'nav-link' %></li>
+          <li class="nav-item"><%= link_to 'likes', likes_user_path(session[:user_id] ),class: 'nav-link' %></li>
+        
+         
+          
           <li class="nav-item dropdown">
             <a href="#" class="nav-link dropdown-toggle" data-toggle="dropdown"><%= current_user.name %></a>
       <ul class="dropdown-menu dropdown-menu-right">
@@ -25,3 +29,4 @@
     </div>
   </nav>
 </header>
+
